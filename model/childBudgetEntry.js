@@ -1,16 +1,13 @@
 import { BudgetTypes } from "./budgetTypes";
 
-export class BudgetEntry {
-    id;
-    amount;
-    repeat;
-    type;
-    date;
-
-    constructor(id=0, amount=0, 
+export class BudgetEntry extends BudgetEntry{
+    parentId;
+    
+    constructor(parent, id=0, amount=0, 
         repeat=BudgetTypes.Repeat.ONCE, 
         type=BudgetTypes.Type.OUTCOME,
         date=new Date()){
+        this.parentId = parent instanceof BudgetEntry ? parent.id : parent;
         this.id = id;
         this.setAmount(amount);
         this.setRepeat(repeat);
