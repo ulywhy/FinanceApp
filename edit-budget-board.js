@@ -41,7 +41,6 @@ export class EditBudgetBoard extends LitElement {
 
   constructor() {
     super();
-    this.id = ''
   }
 
   reset(){
@@ -127,8 +126,8 @@ export class EditBudgetBoard extends LitElement {
       <input type="date" id="date" @change=${this.updateDate} .value=${this.date}>
      </div>
     <div>
-      <button @click=${this.save} ?enabled=${this.enabled}>${this.id.length > 0 ? 'update' : 'save'}</button>
-      <button @click=${this.reset} ?hidden=${this.id.length > 0}>clear</button>
+      <button @click=${this.save} ?enabled=${this.enabled}>${this.id ? 'update' : 'save'}</button>
+      <button @click=${this.reset} ?hidden=${this.id == undefined}>clear</button>
     </div>
     `;
   }

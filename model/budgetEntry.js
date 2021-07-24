@@ -2,21 +2,23 @@ import { BudgetTypes } from "./budgetTypes";
 
 
 export class BudgetEntry {
-    id;
+    _id;
     amount;
     repeat;
     type;
     date;
+    monthId;
 
-    constructor(id=0, amount=0, 
+    constructor(_id='', amount=0, 
         repeat=BudgetTypes.Repeat.ONCE, 
         type=BudgetTypes.Type.OUTCOME,
-        date=DateTime.now().toISODate()){
-        this.id = id;
+        date=DateTime.now().toISODate(), monthId = undefined){
+        this._id = _id;
         this.setAmount(amount);
         this.setRepeat(repeat);
         this.setType(type);
         this.setDate(date);
+        this.monthId = monthId;
     }
 
     static from(obj){
@@ -24,7 +26,7 @@ export class BudgetEntry {
             obj.amount, 
             BudgetTypes.Repeat[obj.repeat],
             BudgetTypes.Type[obj.type],
-            obj.date);
+            obj.date, obj.monthId);
     }
 
     getAmount(){

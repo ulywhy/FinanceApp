@@ -9,14 +9,15 @@ import {Crud} from './services/crud.js';
 import { BudgetEntry } from './model/budgetEntry.js';
 import { BudgetTypes } from './model/budgetTypes.js';
 
-export class CalendarMonthPanel extends LitElement {
+export class CalendarMonthPanelExtended extends LitElement {
   static get styles() {
     return css`
       :host {
         display: block;
         border: solid 1px gray;
         border-radius: 5px;
-        padding: 0px;
+        padding: 1vw;
+        width: 30vw;
       }
       .income,
       .outcome,
@@ -39,24 +40,12 @@ export class CalendarMonthPanel extends LitElement {
   static get properties() {
     return {
       month: Object,
-      incomes: Array,
-      outcomes: Array,
-      total: Number
+      period: Object
     };
   }
 
   constructor() {
     super();
-    this.total = 0;
-  }
-
-  getIncomeBudgets(){
-    console.log(this.month)
-    return Crud.getBudgets({})
-  }
-
-  getOutcomeBudgets(){
-
   }
 
   render() {
@@ -74,10 +63,10 @@ export class CalendarMonthPanel extends LitElement {
         <tfoot>
           <tr>
             <td class="income">
-              ${this.month.budgets.filter(m => m.type === BudgetTypes.Type.INCOME).map(i => i.amount).reduce((t, a) => a + t, 0)}
+              ${this.month.budgets.filter(b => b.type === BudgetTypes.Type.INCOME).map(i => i.amount).reduce((t, a) => a + t, 0)}
             </td>
             <td class="outcome">
-            ${this.month.budgets.filter(m => m.type === BudgetTypes.Type.OUTCOME).map(i => i.amount).reduce((t, a) => a + t, 0)}
+              ${this.month.budgets.filter(b => b.type === BudgetTypes.Type.OUTCOME).map(i => i.amount).reduce((t, a) => a + t, 0)}
             </td>
           </tr>
           <tr>
@@ -92,4 +81,4 @@ export class CalendarMonthPanel extends LitElement {
 
 }
 
-window.customElements.define('calendar-month-panel', CalendarMonthPanel);
+window.customElements.define('calendar-month-panel-extended', CalendarMonthPanelExtended);

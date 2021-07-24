@@ -1,4 +1,9 @@
+import { CallbackUtils } from "./callback-utils";
 import { BudgetEntry } from "../model/budgetEntry";
+import { GUsersCrud } from "./gusers-crud";
+import { GUser } from "../model/guser";
+import { MonthlyCrud } from "./monthly-crud";
+import { MonthlyBudget } from "../model/monthly";
 
 const headers = {
     'content-type': 'application/json',
@@ -8,20 +13,23 @@ const headers = {
 
 export class Crud {
 
-    static insertBudgetEntry(entry){
+    static async insertBudgetEntry(entry){
+        delete entry._id
+        
+        
+        entry.userId = GUser.current._id
         let body = new Array(entry)
+        
         return fetch('https://finances-08bd.restdb.io/rest/budget', {
             mode: 'cors',
             method: 'POST',
             headers: headers,
             body: JSON.stringify(body)
         })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json)
-            return json
-        })
-        .catch(err => console.err(err))
+        .then(CallbackUtils.getJson)
+        .then(CallbackUtils.getFirst)
+        .then(CallbackUtils.log)
+        .catch(CallbackUtils.log)
     }
 
     static insertChildBudgetEntry(entry){
@@ -35,10 +43,8 @@ export class Crud {
         .catch(err => console.err(err))
     }
     static updateBudgetEntry(entry){
-        let id = entry.id
-        delete entry.id;
 
-        return fetch('https://finances-08bd.restdb.io/rest/budget/'+ id, {
+        return fetch('https://finances-08bd.restdb.io/rest/budget/'+ entry._id, {
             mode: 'cors',
             method: 'PUT',
             headers: headers,
@@ -60,9 +66,9 @@ export class Crud {
         .then(deletes => deletes.result.includes(id))
         .catch(err => console.log(err))
     }
-    static  getBudgets(){
-
-        return fetch('https://finances-08bd.restdb.io/rest/budget', {
+    static  getBudgets(queryParams={}){
+        let query = '?' + JSON.stringify(queryParams)
+        return fetch('https://finances-08bd.restdb.io/rest/budget'+query, {
             mode: 'cors',
             method: 'GET',
             headers: headers,
@@ -83,16 +89,7 @@ export class Crud {
                 }
             }
         }
-        let query = 'q=' + JSON.stringify(queryObj)
-        
-        return fetch('https://finances-08bd.restdb.io/rest/budget?'+query, {
-            mode: 'cors',
-            method: 'GET',
-            headers: headers,
-        })
-        .then(res => res.json())
-        .then(list => list.map(b => BudgetEntry.from(b)))
-        .catch(err => console.log(err))
+        return Crud.getBudgets(queryObj)
     }
 
 

@@ -11,6 +11,8 @@ import { BudgetTypes } from './model/budgetTypes.js';
 import { PanelElement } from './panel-element.js';
 import { EditBudgetBoardController } from './edit-budget-board-controller.js';
 import { CalendarPanel } from './calendar-panel.js';
+import { GUsersCrud } from './services/gusers-crud.js';
+import { GUser } from './model/guser.js';
 
 export class DashboardElement extends LitElement {
   static get styles() {
@@ -18,21 +20,19 @@ export class DashboardElement extends LitElement {
       :host {
         display: block;
         border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
+        padding: 0px;
       }
     `;
   }
 
   static get properties() {
     return {
-      budgets: {type: Array}
+      user: Object
     };
   }
 
   constructor() {
     super();
-    this.budgets = new Array();
   }
 
   async firstUpdated() {
@@ -40,22 +40,41 @@ export class DashboardElement extends LitElement {
     this.budgets = await Crud.getBudgets();
   }
 
-  updateBudget(event){
+  async setUser(user){
+    if(user == null){
+      GUser.current = null
+    }else{
+      let result = await GUsersCrud.getOneById(user.getId())
+
+      if(result != null){
+        GUser.current = result
+      }else{
+        GUser.current = await GUsersCrud.insertOne(new GUser(null, user.getId(), user.getName(), user.getEmail(), user.getImageUrl()))
+        console.log(GUser.current)
+      }
+    }
+  }
+
+  updateBudgetHandler(event){
     let editBoard = this.shadowRoot.getElementById('edit-board')
     editBoard.budgetEntry = event.detail
   }
   
+  refresh(){
+    let editBoard = this.shadowRoot.getElementById('calendar-panel')
+    editBoard.reload()
+  }
+
   render() {
     return html`
-      <edit-budget id="edit-board"></edit-budget>
+    <div ?hidden=${this.user === null}>
+      <edit-budget id="edit-board" @budgetCreated=${this.refresh}></edit-budget>
       <calendar-panel id="calendar-panel"></calendar-panel>
-      <panel-element @updateBudget=${this.updateBudget}></panel-element>
+      <!--panel-element @updateBudget=${this.updateBudgetHandler}></panel-element-->
+    </div>
     `;
   }
 
-  _onClick() {
-    this.count++;
-  }
 }
 
 window.customElements.define('dashboard-element', DashboardElement);
