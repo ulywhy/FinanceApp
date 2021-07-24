@@ -5,3 +5,6 @@ bower_components/
 custom-elements.json
 # only generated for size check
 my-element.bundled.js
+
+#test folder
+dev/
