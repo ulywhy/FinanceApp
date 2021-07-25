@@ -105,10 +105,6 @@ export class PanelElement extends LitElement {
       </table>
     `;
   }
-
-  _onClick() {
-    this.count++;
-  }
 }
 
 window.customElements.define('panel-element', PanelElement);

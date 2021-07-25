@@ -5,15 +5,13 @@
  */
 
 import summary from 'rollup-plugin-summary';
-import {terser} from 'rollup-plugin-terser';
-import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
-  input: 'my-element.js',
+  input: 'dashboard-element.js',
   output: {
-    file: 'my-element.bundled.js',
-    format: 'esm',
+    file: 'bundle.js',
+    format: 'es',
   },
   onwarn(warning) {
     if (warning.code !== 'THIS_IS_UNDEFINED') {
@@ -21,18 +19,7 @@ export default {
     }
   },
   plugins: [
-    replace({'Reflect.decorate': 'undefined'}),
-    resolve(),
-    terser({
-      ecma: 2017,
-      module: true,
-      warnings: true,
-      mangle: {
-        properties: {
-          regex: /^__/,
-        },
-      },
-    }),
+    nodeResolve(),
     summary(),
   ],
 };
