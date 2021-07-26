@@ -11,7 +11,7 @@ export default {
   input: 'dashboard-element.js',
   output: {
     file: 'bundle.js',
-    format: 'es',
+    format: 'iife',
   },
   onwarn(warning) {
     if (warning.code !== 'THIS_IS_UNDEFINED') {
