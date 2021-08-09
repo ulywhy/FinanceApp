@@ -15,12 +15,7 @@ import { MonthlyBudget } from './model/monthly.js';
 export class CalendarPanel extends LitElement {
   static get styles() {
     return css`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 0px;
-      }
-      .flex{
+     .flex{
         display: flex;
       }
       .flex-row{
@@ -66,7 +61,10 @@ export class CalendarPanel extends LitElement {
 
   async initMonths(){
     this.months = await MonthlyCrud.getRecent(7)
+    console.log(this.months)
     this.currentMonth = this.months.find(m => this.currentPeriod.contains(m.getDateTime()))
+    console.log(this.currentPeriod.toISO())
+    console.log(this.months.filter(m => this.currentPeriod.isAfter(m.getDateTime())))
   }
 
   reload(){

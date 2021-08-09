@@ -17,12 +17,6 @@ import { BudgetTypes } from './model/budgetTypes.js';
 export class EditBudgetBoard extends LitElement {
   static get styles() {
     return css`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
-      }
       table{
         overflow-y: auto;
       }
@@ -42,6 +36,8 @@ export class EditBudgetBoard extends LitElement {
   constructor() {
     super();
   }
+
+  createRenderRoot() { return this;}
 
   reset(){
     this.requestUpdate()
@@ -66,7 +62,7 @@ export class EditBudgetBoard extends LitElement {
     this.type = event.target.value;
   }
   updateDate(){
-    this.date = this.shadowRoot.getElementById('date').value
+    this.date = document.getElementById('date').value
   }  
 
   /* Dispatch events */
@@ -81,7 +77,7 @@ export class EditBudgetBoard extends LitElement {
 
   /* view Queries */
   getAmountElement(){
-    return this.getElementById("amount")
+    return document.getElementById("amount")
   }
   getTypeElement(){
     return this.getRadioCheckedElement('type')
@@ -90,26 +86,23 @@ export class EditBudgetBoard extends LitElement {
     return this.getRadioCheckedElement('repeat')
   }
 
-  getElementById(id){
-    return this.shadowRoot.getElementById(id)
-  }
   getRadioElements(className){
-    return Array.from(this.shadowRoot.querySelectorAll('.'+className)) 
+    return Array.from(document.querySelectorAll('.'+className)) 
   }
   getRadioCheckedElement(name){
-      return this.shadowRoot.querySelector('.'+name+':checked')  
+      return document.querySelector('.'+name+':checked')  
   }
 
   render() {
     return html`
-    <h1>budget entry</h1>
+    <div class="section">
     <div>
-      <input id="amount" type="number" @change=${this.updateAmount}   value=${this.amount}>
+      <input id="amount" class="input" type="number" @change=${this.updateAmount}   value=${this.amount}>
     </div>
     <div>
       ${Object.entries(BudgetTypes.Repeat).map((entry) => html`         
         <label>
-            <input type="radio" class="repeat" ?checked=${this.repeat === BudgetTypes.Repeat[entry[0]]} 
+            <input type="radio" class="radio repeat" ?checked=${this.repeat === BudgetTypes.Repeat[entry[0]]} 
               @change=${this.updateRepeat} value=${entry[0]}> ${entry[1]}
         </label>
       `)}
@@ -117,18 +110,19 @@ export class EditBudgetBoard extends LitElement {
     <div>
       ${Object.entries(BudgetTypes.Type).map((entry) => html`         
         <label>
-            <input type="radio" class="type" ?checked=${this.type === BudgetTypes.Type[entry[0]]}
+            <input type="radio" class="radio type" ?checked=${this.type === BudgetTypes.Type[entry[0]]}
               @change=${this.updateType} value=${entry[0]}> ${entry[1]}
         </label>
       `)}
     </div>
     <div>
-      <input type="date" id="date" @change=${this.updateDate} .value=${this.date}>
+      <input type="date" id="date" class="input" @change=${this.updateDate} .value=${this.date}>
      </div>
     <div>
-      <button @click=${this.save} ?enabled=${this.enabled}>${this.id ? 'update' : 'save'}</button>
-      <button @click=${this.reset} ?hidden=${this.id == undefined}>clear</button>
+      <button class="button" @click=${this.save} ?enabled=${this.enabled}>${this.id ? 'update' : 'save'}</button>
+      <button class="button" @click=${this.reset} ?hidden=${this.id == undefined}>clear</button>
     </div>
+  </div>
     `;
   }
 

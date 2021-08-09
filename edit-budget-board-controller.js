@@ -19,11 +19,7 @@ import { EditBudgetBoard } from './edit-budget-board.js';
 export class EditBudgetBoardController extends LitElement {
   static get styles() {
     return css`
-      :host {
-        display: block;
-        padding: 0px;
-        max-width: 800px;
-      }
+      
     `;
   }
 
@@ -33,6 +29,8 @@ export class EditBudgetBoardController extends LitElement {
       budgetEntry: {type: Object}
     };
   }
+
+  createRenderRoot() { return this;}
 
   constructor() {
     super();
@@ -67,11 +65,12 @@ export class EditBudgetBoardController extends LitElement {
 
 
   getBudgetBoard(){
-    return this.shadowRoot.getElementById('edit-budget-board')
+    return document.getElementById('edit-budget-board')
   }
   render() {
     return html`
-      <edit-budget-board id="edit-budget-board"
+      <edit-budget-board class="container"
+        id="edit-budget-board"
         .amount=${this.budgetEntry.amount}
         .id=${this.budgetEntry._id}
         .date=${this.budgetEntry.date}
