@@ -19,7 +19,7 @@
      * @license
      * Copyright 2017 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
-     */var s$1,e,h$1,r;const o$1={toAttribute(t,i){switch(i){case Boolean:t=t?"":null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,i){let s=t;switch(i){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t);}catch(t){s=null;}}return s}},n$1=(t,i)=>i!==t&&(i==i||t==t),l$1={attribute:!0,type:String,converter:o$1,reflect:!1,hasChanged:n$1};class a$1 extends HTMLElement{constructor(){super(),this.Πi=new Map,this.Πo=void 0,this.Πl=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this.Πh=null,this.u();}static addInitializer(t){var i;null!==(i=this.v)&&void 0!==i||(this.v=[]),this.v.push(t);}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((i,s)=>{const e=this.Πp(s,i);void 0!==e&&(this.Πm.set(e,s),t.push(e));})),t}static createProperty(t,i=l$1){if(i.state&&(i.attribute=!1),this.finalize(),this.elementProperties.set(t,i),!i.noAccessor&&!this.prototype.hasOwnProperty(t)){const s="symbol"==typeof t?Symbol():"__"+t,e=this.getPropertyDescriptor(t,s,i);void 0!==e&&Object.defineProperty(this.prototype,t,e);}}static getPropertyDescriptor(t,i,s){return {get(){return this[i]},set(e){const h=this[t];this[i]=e,this.requestUpdate(t,h,s);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||l$1}static finalize(){if(this.hasOwnProperty("finalized"))return !1;this.finalized=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),this.elementProperties=new Map(t.elementProperties),this.Πm=new Map,this.hasOwnProperty("properties")){const t=this.properties,i=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const s of i)this.createProperty(s,t[s]);}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(i){const s=[];if(Array.isArray(i)){const e=new Set(i.flat(1/0).reverse());for(const i of e)s.unshift(S(i));}else void 0!==i&&s.push(S(i));return s}static Πp(t,i){const s=i.attribute;return !1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}u(){var t;this.Πg=new Promise((t=>this.enableUpdating=t)),this.L=new Map,this.Π_(),this.requestUpdate(),null===(t=this.constructor.v)||void 0===t||t.forEach((t=>t(this)));}addController(t){var i,s;(null!==(i=this.ΠU)&&void 0!==i?i:this.ΠU=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(s=t.hostConnected)||void 0===s||s.call(t));}removeController(t){var i;null===(i=this.ΠU)||void 0===i||i.splice(this.ΠU.indexOf(t)>>>0,1);}Π_(){this.constructor.elementProperties.forEach(((t,i)=>{this.hasOwnProperty(i)&&(this.Πi.set(i,this[i]),delete this[i]);}));}createRenderRoot(){var t;const s=null!==(t=document)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return i$1(s,this.constructor.elementStyles),s}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostConnected)||void 0===i?void 0:i.call(t)})),this.Πl&&(this.Πl(),this.Πo=this.Πl=void 0);}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostDisconnected)||void 0===i?void 0:i.call(t)})),this.Πo=new Promise((t=>this.Πl=t));}attributeChangedCallback(t,i,s){this.K(t,s);}Πj(t,i,s=l$1){var e,h;const r=this.constructor.Πp(t,s);if(void 0!==r&&!0===s.reflect){const n=(null!==(h=null===(e=s.converter)||void 0===e?void 0:e.toAttribute)&&void 0!==h?h:o$1.toAttribute)(i,s.type);this.Πh=t,null==n?this.removeAttribute(r):this.setAttribute(r,n),this.Πh=null;}}K(t,i){var s,e,h;const r=this.constructor,n=r.Πm.get(t);if(void 0!==n&&this.Πh!==n){const t=r.getPropertyOptions(n),l=t.converter,a=null!==(h=null!==(e=null===(s=l)||void 0===s?void 0:s.fromAttribute)&&void 0!==e?e:"function"==typeof l?l:null)&&void 0!==h?h:o$1.fromAttribute;this.Πh=n,this[n]=a(i,t.type),this.Πh=null;}}requestUpdate(t,i,s){let e=!0;void 0!==t&&(((s=s||this.constructor.getPropertyOptions(t)).hasChanged||n$1)(this[t],i)?(this.L.has(t)||this.L.set(t,i),!0===s.reflect&&this.Πh!==t&&(void 0===this.Πk&&(this.Πk=new Map),this.Πk.set(t,s))):e=!1),!this.isUpdatePending&&e&&(this.Πg=this.Πq());}async Πq(){this.isUpdatePending=!0;try{for(await this.Πg;this.Πo;)await this.Πo;}catch(t){Promise.reject(t);}const t=this.performUpdate();return null!=t&&await t,!this.isUpdatePending}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this.Πi&&(this.Πi.forEach(((t,i)=>this[i]=t)),this.Πi=void 0);let i=!1;const s=this.L;try{i=this.shouldUpdate(s),i?(this.willUpdate(s),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostUpdate)||void 0===i?void 0:i.call(t)})),this.update(s)):this.Π$();}catch(t){throw i=!1,this.Π$(),t}i&&this.E(s);}willUpdate(t){}E(t){var i;null===(i=this.ΠU)||void 0===i||i.forEach((t=>{var i;return null===(i=t.hostUpdated)||void 0===i?void 0:i.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}Π$(){this.L=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this.Πg}shouldUpdate(t){return !0}update(t){void 0!==this.Πk&&(this.Πk.forEach(((t,i)=>this.Πj(i,this[i],t))),this.Πk=void 0),this.Π$();}updated(t){}firstUpdated(t){}}a$1.finalized=!0,a$1.shadowRootOptions={mode:"open"},null===(e=(s$1=globalThis).reactiveElementPlatformSupport)||void 0===e||e.call(s$1,{ReactiveElement:a$1}),(null!==(h$1=(r=globalThis).reactiveElementVersions)&&void 0!==h$1?h$1:r.reactiveElementVersions=[]).push("1.0.0-rc.1");
+     */var s$1,e,h$1,r;const o$1={toAttribute(t,i){switch(i){case Boolean:t=t?"":null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,i){let s=t;switch(i){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t);}catch(t){s=null;}}return s}},n$1=(t,i)=>i!==t&&(i==i||t==t),l$1={attribute:!0,type:String,converter:o$1,reflect:!1,hasChanged:n$1};class a$1 extends HTMLElement{constructor(){super(),this.Πi=new Map,this.Πo=void 0,this.Πl=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this.Πh=null,this.u();}static addInitializer(t){var i;null!==(i=this.v)&&void 0!==i||(this.v=[]),this.v.push(t);}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((i,s)=>{const e=this.Πp(s,i);void 0!==e&&(this.Πm.set(e,s),t.push(e));})),t}static createProperty(t,i=l$1){if(i.state&&(i.attribute=!1),this.finalize(),this.elementProperties.set(t,i),!i.noAccessor&&!this.prototype.hasOwnProperty(t)){const s="symbol"==typeof t?Symbol():"__"+t,e=this.getPropertyDescriptor(t,s,i);void 0!==e&&Object.defineProperty(this.prototype,t,e);}}static getPropertyDescriptor(t,i,s){return {get(){return this[i]},set(e){const h=this[t];this[i]=e,this.requestUpdate(t,h,s);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||l$1}static finalize(){if(this.hasOwnProperty("finalized"))return !1;this.finalized=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),this.elementProperties=new Map(t.elementProperties),this.Πm=new Map,this.hasOwnProperty("properties")){const t=this.properties,i=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const s of i)this.createProperty(s,t[s]);}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(i){const s=[];if(Array.isArray(i)){const e=new Set(i.flat(1/0).reverse());for(const i of e)s.unshift(S(i));}else void 0!==i&&s.push(S(i));return s}static Πp(t,i){const s=i.attribute;return !1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}u(){var t;this.Πg=new Promise((t=>this.enableUpdating=t)),this.L=new Map,this.Π_(),this.requestUpdate(),null===(t=this.constructor.v)||void 0===t||t.forEach((t=>t(this)));}addController(t){var i,s;(null!==(i=this.ΠU)&&void 0!==i?i:this.ΠU=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(s=t.hostConnected)||void 0===s||s.call(t));}removeController(t){var i;null===(i=this.ΠU)||void 0===i||i.splice(this.ΠU.indexOf(t)>>>0,1);}Π_(){this.constructor.elementProperties.forEach(((t,i)=>{this.hasOwnProperty(i)&&(this.Πi.set(i,this[i]),delete this[i]);}));}createRenderRoot(){var t;const s=null!==(t=this.shadowRoot)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return i$1(s,this.constructor.elementStyles),s}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostConnected)||void 0===i?void 0:i.call(t)})),this.Πl&&(this.Πl(),this.Πo=this.Πl=void 0);}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostDisconnected)||void 0===i?void 0:i.call(t)})),this.Πo=new Promise((t=>this.Πl=t));}attributeChangedCallback(t,i,s){this.K(t,s);}Πj(t,i,s=l$1){var e,h;const r=this.constructor.Πp(t,s);if(void 0!==r&&!0===s.reflect){const n=(null!==(h=null===(e=s.converter)||void 0===e?void 0:e.toAttribute)&&void 0!==h?h:o$1.toAttribute)(i,s.type);this.Πh=t,null==n?this.removeAttribute(r):this.setAttribute(r,n),this.Πh=null;}}K(t,i){var s,e,h;const r=this.constructor,n=r.Πm.get(t);if(void 0!==n&&this.Πh!==n){const t=r.getPropertyOptions(n),l=t.converter,a=null!==(h=null!==(e=null===(s=l)||void 0===s?void 0:s.fromAttribute)&&void 0!==e?e:"function"==typeof l?l:null)&&void 0!==h?h:o$1.fromAttribute;this.Πh=n,this[n]=a(i,t.type),this.Πh=null;}}requestUpdate(t,i,s){let e=!0;void 0!==t&&(((s=s||this.constructor.getPropertyOptions(t)).hasChanged||n$1)(this[t],i)?(this.L.has(t)||this.L.set(t,i),!0===s.reflect&&this.Πh!==t&&(void 0===this.Πk&&(this.Πk=new Map),this.Πk.set(t,s))):e=!1),!this.isUpdatePending&&e&&(this.Πg=this.Πq());}async Πq(){this.isUpdatePending=!0;try{for(await this.Πg;this.Πo;)await this.Πo;}catch(t){Promise.reject(t);}const t=this.performUpdate();return null!=t&&await t,!this.isUpdatePending}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this.Πi&&(this.Πi.forEach(((t,i)=>this[i]=t)),this.Πi=void 0);let i=!1;const s=this.L;try{i=this.shouldUpdate(s),i?(this.willUpdate(s),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostUpdate)||void 0===i?void 0:i.call(t)})),this.update(s)):this.Π$();}catch(t){throw i=!1,this.Π$(),t}i&&this.E(s);}willUpdate(t){}E(t){var i;null===(i=this.ΠU)||void 0===i||i.forEach((t=>{var i;return null===(i=t.hostUpdated)||void 0===i?void 0:i.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}Π$(){this.L=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this.Πg}shouldUpdate(t){return !0}update(t){void 0!==this.Πk&&(this.Πk.forEach(((t,i)=>this.Πj(i,this[i],t))),this.Πk=void 0),this.Π$();}updated(t){}firstUpdated(t){}}a$1.finalized=!0,a$1.shadowRootOptions={mode:"open"},null===(e=(s$1=globalThis).reactiveElementPlatformSupport)||void 0===e||e.call(s$1,{ReactiveElement:a$1}),(null!==(h$1=(r=globalThis).reactiveElementVersions)&&void 0!==h$1?h$1:r.reactiveElementVersions=[]).push("1.0.0-rc.1");
 
     /**
      * @license
@@ -195,17 +195,20 @@
         constructor(_id, userId, date = DateTime.now().toISODate(), total = 0, budgets = new Array()){
             this._id = _id;
             this.userId = userId;
-            this.date = DateTime.fromISO(date).set({day: 1}).toISODate();
+            this.date = DateTime.fromISO(date, { zone: 'utc'}).set({day: 1}).toISODate();
             this.total = total;
             this.budgets = budgets;
+            console.log(this);
         }
 
         static from(obj){
+            console.log(obj.date);
+            console.log(DateTime.fromISO(obj.date));
             return new MonthlyBudget(obj._id, obj.userId, obj.date, obj.total, obj.budgets)
         }
       
         getDateTime(){
-            return DateTime.fromISO(this.date)
+            return DateTime.fromISO(this.date, { zone: 'utc'})
         }
     }
 
@@ -541,12 +544,6 @@
     class EditBudgetBoard extends h {
       static get styles() {
         return r$1`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
-      }
       table{
         overflow-y: auto;
       }
@@ -566,6 +563,8 @@
       constructor() {
         super();
       }
+
+      createRenderRoot() { return this;}
 
       reset(){
         this.requestUpdate();
@@ -605,7 +604,7 @@
 
       /* view Queries */
       getAmountElement(){
-        return this.getElementById("amount")
+        return document.getElementById("amount")
       }
       getTypeElement(){
         return this.getRadioCheckedElement('type')
@@ -614,9 +613,6 @@
         return this.getRadioCheckedElement('repeat')
       }
 
-      getElementById(id){
-        return document.getElementById(id)
-      }
       getRadioElements(className){
         return Array.from(document.querySelectorAll('.'+className)) 
       }
@@ -626,14 +622,14 @@
 
       render() {
         return T`
-    <h1>budget entry</h1>
+    <div class="section">
     <div>
-      <input id="amount" type="number" @change=${this.updateAmount}   value=${this.amount}>
+      <input id="amount" class="input" type="number" @change=${this.updateAmount}   value=${this.amount}>
     </div>
     <div>
       ${Object.entries(BudgetTypes.Repeat).map((entry) => T`         
         <label>
-            <input type="radio" class="repeat" ?checked=${this.repeat === BudgetTypes.Repeat[entry[0]]} 
+            <input type="radio" class="radio repeat" ?checked=${this.repeat === BudgetTypes.Repeat[entry[0]]} 
               @change=${this.updateRepeat} value=${entry[0]}> ${entry[1]}
         </label>
       `)}
@@ -641,18 +637,19 @@
     <div>
       ${Object.entries(BudgetTypes.Type).map((entry) => T`         
         <label>
-            <input type="radio" class="type" ?checked=${this.type === BudgetTypes.Type[entry[0]]}
+            <input type="radio" class="radio type" ?checked=${this.type === BudgetTypes.Type[entry[0]]}
               @change=${this.updateType} value=${entry[0]}> ${entry[1]}
         </label>
       `)}
     </div>
     <div>
-      <input type="date" id="date" @change=${this.updateDate} .value=${this.date}>
+      <input type="date" id="date" class="input" @change=${this.updateDate} .value=${this.date}>
      </div>
     <div>
-      <button @click=${this.save} ?enabled=${this.enabled}>${this.id ? 'update' : 'save'}</button>
-      <button @click=${this.reset} ?hidden=${this.id == undefined}>clear</button>
+      <button class="button" @click=${this.save} ?enabled=${this.enabled}>${this.id ? 'update' : 'save'}</button>
+      <button class="button" @click=${this.reset} ?hidden=${this.id == undefined}>clear</button>
     </div>
+  </div>
     `;
       }
 
@@ -674,11 +671,7 @@
     class EditBudgetBoardController extends h {
       static get styles() {
         return r$1`
-      :host {
-        display: block;
-        padding: 0px;
-        max-width: 800px;
-      }
+      
     `;
       }
 
@@ -688,6 +681,8 @@
           budgetEntry: {type: Object}
         };
       }
+
+      createRenderRoot() { return this;}
 
       constructor() {
         super();
@@ -726,7 +721,8 @@
       }
       render() {
         return T`
-      <edit-budget-board id="edit-budget-board"
+      <edit-budget-board class="container"
+        id="edit-budget-board"
         .amount=${this.budgetEntry.amount}
         .id=${this.budgetEntry._id}
         .date=${this.budgetEntry.date}
@@ -919,12 +915,7 @@
     class CalendarPanel extends h {
       static get styles() {
         return r$1`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 0px;
-      }
-      .flex{
+     .flex{
         display: flex;
       }
       .flex-row{
@@ -970,7 +961,10 @@
 
       async initMonths(){
         this.months = await MonthlyCrud.getRecent(7);
+        console.log(this.months);
         this.currentMonth = this.months.find(m => this.currentPeriod.contains(m.getDateTime()));
+        console.log(this.currentPeriod.toISO());
+        console.log(this.months.filter(m => this.currentPeriod.isAfter(m.getDateTime())));
       }
 
       reload(){
@@ -1005,31 +999,68 @@
      * Copyright 2019 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
      */
-
-    class DashboardElement extends h {
-      static get styles() {
-        return r$1`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 0px;
+     
+     function onSignIn(googleUser) {
+      document.querySelector('login-element').setUser(googleUser.getBasicProfile());
+       document.getElementById('my-signin2').classList.add('is-hidden');
+       document.getElementById('logout').classList.remove('is-hidden');
+     }
+     function onFailure(error) {
+       console.log(error);
+     }
+     function signOut() {
+       var auth2 = gapi.auth2.getAuthInstance();
+       auth2.signOut().then(function () {
+         document.querySelector('login-element').setUser(null);
+         document.getElementById('my-signin2').classList.remove('is-hidden');
+         document.getElementById('logout').classList.add('is-hidden');
+       });
+     }
+     class LoginElement extends h {
+       static get styles() {
+         return r$1`
+     `;
+       }
+     
+       static get properties() {
+         return {
+         };
+       }
+     
+       constructor() {
+         super();
+         
+         this.user = { image:"https://image.shutterstock.com/image-vector/green-cactus-clay-flower-pot-260nw-1103556998.jpg"};
+         GUser.current = this.user;
+       }
+     
+      createRenderRoot() { return this;}
+     
+       async firstUpdated() {
+         super.firstUpdated();
+         this.renderLogin();
+       }
+     
+      renderLogin(){
+        gapi.signin2.render('my-signin2', {
+          'scope': 'profile email',
+          'width': 110,
+          'height': 32,
+          'longtitle': false,
+          'theme': 'dark',
+          'onsuccess': onSignIn,
+          'onfailure': onFailure
+        });  
       }
-    `;
-      }
 
-      static get properties() {
-        return {
-          user: Object
-        };
-      }
-
-      constructor() {
-        super();
-      }
-
-      async firstUpdated() {
-        super.firstUpdated();
-        this.budgets = await Crud.getBudgets();
+      /* Dispatch events */
+      async dispatchUserChange(user){
+        console.log(user);
+        this.dispatchEvent(new CustomEvent('userChange', {
+          detail: user,
+          bubbles: true, 
+          composed: true })
+        );
       }
 
       async setUser(user){
@@ -1037,14 +1068,69 @@
           GUser.current = null;
         }else {
           let result = await GUsersCrud.getOneById(user.getId());
-
+     
           if(result != null){
             GUser.current = result;
           }else {
             GUser.current = await GUsersCrud.insertOne(new GUser(null, user.getId(), user.getName(), user.getEmail(), user.getImageUrl()));
-            console.log(GUser.current);
           }
         }
+        this.dispatchUserChange(GUser.current);
+      }
+
+      render() {
+        return T`
+    <div class="is-flex">
+      <div id="my-signin2"></div>
+      <button id="logout" class="is-hidden" @click=${signOut}>Sign out</button>
+      <figure class="image is-32x32">
+          <img src=${GUser.current.image} class="is-rounded">
+      </figure>
+    </div>
+    `;
+      }
+     
+     }
+     
+     window.customElements.define('login-element', LoginElement);
+
+    /**
+     * @license
+     * Copyright 2019 Google LLC
+     * SPDX-License-Identifier: BSD-3-Clause
+     */
+
+    class DashboardElement extends h {
+      static get styles() {
+        return r$1`
+    `;
+      }
+
+      static get properties() {
+        return {
+          anonymus: Boolean
+        };
+      }
+
+      constructor() {
+        super();
+        this.anonymus = true;
+      }
+
+      createRenderRoot() { return this;}
+
+      async firstUpdated() {
+        super.firstUpdated();
+        this.budgets = await Crud.getBudgets();
+      }
+
+      setUser(event){
+        console.log(event);
+        let user = event.detail;
+        this.anonymus = (user === null || user === undefined);
+        console.log(user);
+        console.log(this.anonymus);
+        this.requestUpdate();
       }
 
       updateBudgetHandler(event){
@@ -1057,12 +1143,45 @@
         editBoard.reload();
       }
 
+      tooglePanel(event){
+        this.toogleTabs(event.target);
+        this.hideActivePanel();
+        this.showTargetPanel(event.target);
+        
+      }
+
+      toogleTabs(target){
+        let activeTab = document.querySelector('.panel-tabs > a.is-active');
+        activeTab.classList.remove('is-active');
+        target.classList.add('is-active');
+      }
+
+      hideActivePanel(){
+        let activePanel = document.querySelector('.panel-block.is-active');
+        activePanel.classList.remove('is-active');
+        activePanel.classList.add('is-hidden');
+      }
+
+      showTargetPanel(target){
+        document.getElementsByName(target.id)[0].classList.remove('is-hidden');
+        document.getElementsByName(target.id)[0].classList.add('is-active');
+      }
+
       render() {
         return T`
-    <div ?hidden=${this.user === null}>
-      <edit-budget id="edit-board" @budgetCreated=${this.refresh}></edit-budget>
-      <calendar-panel id="calendar-panel"></calendar-panel>
-      <!--panel-element @updateBudget=${this.updateBudgetHandler}></panel-element-->
+    <div class="panel">
+      <div class="panel-heading is-flex is-justify-content-flex-end">
+        <login-element @userChange=${this.setUser}></login-element>
+      </div>
+      <div ?hidden=${this.anonymus}>   
+        <p class="panel-tabs">
+              <a id="add" @click=${this.tooglePanel}>add</a>
+              <a id="calendar" class="is-active" @click=${this.tooglePanel}>calendar</a>
+        </p>
+        <edit-budget class="panel-block is-hidden" id="edit-board" name="add" @budgetCreated=${this.refresh}></edit-budget>
+        <calendar-panel class="panel-block is-active" id="calendar-panel" name="calendar"></calendar-panel>
+        <!--panel-element @updateBudget=${this.updateBudgetHandler}></panel-element-->
+      </div>
     </div>
     `;
       }
